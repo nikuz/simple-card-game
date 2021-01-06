@@ -1,0 +1,15 @@
+
+.button {
+    min-width: 34.7rem;
+    height: 8.8rem;
+    padding: 0 2.0rem;
+    cursor: pointer;
+    background-color: var(--white);
+    border-radius: 1rem;
+    box-shadow: 0 1rem 3rem rgba(43, 169, 224, 0.5);
+    font-size: 5rem;
+    line-height: 6rem;
+    color: var(--gark-blue);
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+}

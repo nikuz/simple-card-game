@@ -1,0 +1,16 @@
+
+.card-container {
+    text-align: center;
+}
+
+.cc-image {
+    width: 15rem;
+}
+
+.cc-image.small {
+    width: 10rem;
+}
+
+.cc-image.big {
+    width: 20rem;
+}

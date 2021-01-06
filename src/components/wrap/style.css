@@ -1,0 +1,16 @@
+.resizable-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.blurred .resizable-container {
+    filter: blur(1rem);
+}
+
+.blurred .resizable-container.no-blur {
+    filter: none;
+}

@@ -1,0 +1,28 @@
+
+.deck-container {
+    position: relative;
+    height: 100%;
+}
+
+.deck-container.disabled {
+    opacity: 0.5;
+}
+
+.dc-item {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) rotate(-90deg);
+    cursor: pointer;
+}
+
+.dc-item:hover {
+    margin-top: -2.5rem;
+}
+
+.dc-left .dc-item:hover {
+    padding-top: 5rem;
+}
+
+.dc-right .dc-item:hover {
+    padding-bottom: 5rem;
+}
