@@ -6,16 +6,54 @@
 
 .tc-card-container {
     position: absolute;
-    top: 50%;
-    left: 50%;
+    transform: rotate(-90deg);
+    perspective: 1000px;
 }
 
-.tc-left-card {
+.tccc-wrapper-enter-active {
+    transition: all 500ms;
+}
+
+.tccc-wrapper-enter-active,
+.tccc-wrapper-enter-done {
+    top: 50%!important;
+    left: 50%!important;
+    width: 20rem!important;
+    height: 31.26rem!important;
+}
+
+.tccc-wrapper-enter-active.tc-left-card,
+.tccc-wrapper-enter-done.tc-left-card {
     transform: translate(-100%, -50%) rotate(-30deg);
 }
 
-.tc-right-card {
+.tccc-wrapper-enter-active.tc-right-card,
+.tccc-wrapper-enter-done.tc-right-card {
     transform: translate(0, -50%) rotate(30deg);
+}
+
+.tccc-inner {
+    transition: transform 500ms;
+    transform-style: preserve-3d;
+}
+
+.tccc-wrapper-enter-active .tccc-inner,
+.tccc-wrapper-enter-done .tccc-inner {
+    transform: rotateY(180deg);
+}
+
+.rccc-front,
+.rccc-back {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+}
+
+.rccc-back {
+    transform: rotateY(180deg);
 }
 
 .tc-score {

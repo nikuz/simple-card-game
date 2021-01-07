@@ -1,4 +1,5 @@
 
+
 .deck-container {
     position: relative;
     height: 100%;
@@ -11,7 +12,6 @@
 .dc-item {
     position: absolute;
     left: 50%;
-    transform: translateX(-50%) rotate(-90deg);
     cursor: pointer;
 }
 
@@ -20,9 +20,9 @@
 }
 
 .dc-left .dc-item:hover {
-    padding-top: 5rem;
+    padding-top: var(--hover-padding);
 }
 
 .dc-right .dc-item:hover {
-    padding-bottom: 5rem;
+    padding-bottom: var(--hover-padding);
 }

@@ -6,7 +6,11 @@ import WrapComponent from './components/wrap';
 import OverlayComponent from './components/overlay';
 import DeckModel from './models/Deck';
 import CardModel from './models/Card';
-import type { DeckPosition } from './types';
+import type {
+    SideSelection,
+    Side,
+    CardRect,
+} from './types';
 import './style.css';
 
 const emptyCard = new CardModel({
@@ -15,31 +19,49 @@ const emptyCard = new CardModel({
     rankId: '',
 });
 
+const emptyRect = {
+    top: 0,
+    left: 0,
+    width: 0,
+    height: 0,
+};
+
+const emptySelection: SideSelection = {
+    card: emptyCard,
+    rect: emptyRect,
+};
+
 function App() {
     let leftDeck = useRef(new DeckModel());
     let rightDeck = useRef(new DeckModel());
-    const [leftCard, setLeftCard] = useState(emptyCard);
-    const [rightCard, setRightCard] = useState(emptyCard);
-    const [leftFirst, setLeftFirst] = useState(false);
+    const [leftSide, setLeftSideSelection] = useState<SideSelection>(emptySelection);
     const [leftScore, setLeftScore] = useState(0);
+    const [rightSide, setRightSideSelection] = useState<SideSelection>(emptySelection);
     const [rightScore, setRightScore] = useState(0);
+    const [firstAttack, setFirstAttack] = useState<Side>();
     const [gameOver, setGameOver] = useState(false);
 
-    const cardChooseHandler = (position: DeckPosition, cardId: string) => {
-        if (position === 'left') {
+    const cardChooseHandler = (side: Side, cardId: string, cardRect: CardRect) => {
+        if (side === 'left') {
             const card = leftDeck.current.pullCardById(cardId);
             if (card) {
-                setLeftCard(card);
-                if (rightCard.rankId === '') {
-                    setLeftFirst(true);
+                setLeftSideSelection({
+                    card: card,
+                    rect: cardRect,
+                });
+                if (rightSide.card.rankId === '') {
+                    setFirstAttack('left');
                 }
             }
         } else {
             const card = rightDeck.current.pullCardById(cardId);
             if (card) {
-                setRightCard(card);
-                if (leftCard.rankId === '') {
-                    setLeftFirst(false);
+                setRightSideSelection({
+                    card: card,
+                    rect: cardRect,
+                });
+                if (leftSide.card.rankId === '') {
+                    setFirstAttack('right');
                 }
             }
         }
@@ -55,14 +77,14 @@ function App() {
 
     useEffect(() => {
         const refreshTableTimer = setInterval(() => {
-            if (leftCard.rank !== -1 && rightCard.rank !== -1) {
-                if (leftCard.rank > rightCard.rank) {
+            if (leftSide.card.rank !== -1 && rightSide.card.rank !== -1) {
+                if (leftSide.card.rank > rightSide.card.rank) {
                     setLeftScore(leftScore + 1);
-                } else if (leftCard.rank < rightCard.rank) {
+                } else if (leftSide.card.rank < rightSide.card.rank) {
                     setRightScore(rightScore + 1);
                 }
-                setLeftCard(emptyCard);
-                setRightCard(emptyCard);
+                setLeftSideSelection(emptySelection);
+                setRightSideSelection(emptySelection);
             }
             if (
                 leftDeck.current.cardsInDeck.length === 0
@@ -72,7 +94,7 @@ function App() {
             }
         }, 1000);
         return () => clearInterval(refreshTableTimer);
-    }, [leftCard, rightCard, leftScore, rightScore]);
+    }, [leftSide, rightSide, leftScore, rightScore]);
 
     let gameOverText = '';
     if (gameOver) {
@@ -96,21 +118,21 @@ function App() {
     return (
         <WrapComponent className="app-container">
             <DeckComponent
-                position="left"
-                disabled={leftCard.rankId !== ''}
+                side="left"
+                disabled={leftSide.card.rankId !== ''}
                 list={leftDeck.current.cardsInDeck}
                 onCardChoose={cardChooseHandler}
             />
             <TableComponent
+                leftSide={leftSide}
                 leftScore={leftScore}
-                leftCard={leftCard}
-                rightCard={rightCard}
+                rightSide={rightSide}
                 rightScore={rightScore}
-                leftFirst={leftFirst}
+                firstAttack={firstAttack}
             />
             <DeckComponent
-                position="right"
-                disabled={rightCard.rankId !== ''}
+                side="right"
+                disabled={rightSide.card.rankId !== ''}
                 list={rightDeck.current.cardsInDeck}
                 onCardChoose={cardChooseHandler}
             />

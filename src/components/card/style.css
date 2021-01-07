@@ -1,6 +1,10 @@
+:root {
+    --hover-padding: 5rem;
+}
 
 .card-container {
     text-align: center;
+    font-size: 0;
 }
 
 .cc-image {
@@ -13,4 +17,8 @@
 
 .cc-image.big {
     width: 20rem;
+}
+
+.cc-image.flexible {
+    width: 100%;
 }

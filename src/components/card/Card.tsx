@@ -5,7 +5,7 @@ import CardModel from '../../models/Card';
 import './style.css';
 
 interface Props extends CardModel {
-    size: 'small' | 'big',
+    size: 'small' | 'big' | 'flexible',
     open?: boolean,
 }
 
@@ -17,6 +17,7 @@ export default function Card(props: Props) {
     const cardClassName = cl('cc-image', {
         small: props.size === 'small',
         big: props.size === 'big',
+        flexible: props.size === 'flexible',
     });
 
     return (
