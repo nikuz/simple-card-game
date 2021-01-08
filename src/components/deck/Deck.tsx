@@ -1,5 +1,5 @@
 
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import cl from 'classnames';
 import CardModel from '../../models/Card';
 import CardComponent from '../card';
@@ -18,6 +18,7 @@ const cardWidth = 10; // in rem
 const deckHeight = (SCREEN_BASE_HEIGHT - cardWidth); // in rem
 
 interface Props {
+    autoPlay?: boolean,
     side: Side,
     disabled: boolean,
     list: CardModel[],
@@ -25,28 +26,42 @@ interface Props {
 }
 
 export default function Deck(props: Props) {
-    const containerClassName = cl('deck-container', `dc-${props.side}`, {
-        disabled: props.disabled,
+    const {
+        autoPlay,
+        disabled,
+        list,
+        side,
+    } = props;
+
+    const containerClassName = cl('deck-container', `dc-${side}`, {
+        disabled,
     });
 
-    const cardMargin = deckHeight / (props.list.length - 1);
+    const cardMargin = deckHeight / (list.length - 1);
     const [padding] = getCssProperty(['hover-padding']);
+
+    let autoPlayCard: number;
+    if (autoPlay && !disabled) {
+        autoPlayCard = Math.floor(Math.random() * list.length);
+    }
 
     return (
         <div className={containerClassName}>
-            {props.list.map((card: CardModel, i) => (
+            {list.map((card: CardModel, i) => (
                 <DeckCard
                     key={card.id}
-                    side={props.side}
+                    side={side}
                     card={card}
+                    autoPlay={i === autoPlayCard}
+                    disabled={disabled}
                     position={i * cardMargin}
                     padding={parseInt(padding, 10)}
                     onClick={(rect: CardRect) => {
-                        props.onCardChoose(props.side, card.id, rect);
+                        props.onCardChoose(side, card.id, rect);
                     }}
                 />
             ))}
-            { props.disabled && <div className="blocker" /> }
+            { disabled && <div className="blocker" /> }
         </div>
     );
 }
@@ -54,14 +69,48 @@ export default function Deck(props: Props) {
 interface DeckCardProps {
     side: Side,
     card: CardModel,
+    autoPlay: boolean,
+    disabled: boolean,
     position: number,
     padding: number,
     onClick: (rect: CardRect) => any,
 }
 
 function DeckCard(props: DeckCardProps) {
+    const {
+        autoPlay,
+        disabled,
+        onClick,
+        padding,
+        side,
+    } = props;
     const element = useRef<HTMLDivElement>(null);
     const translateY = 2.65;
+
+    const clickHandler = useCallback(() => {
+        if (element.current !== null) {
+            const el = element.current;
+            let left = el.offsetLeft;
+
+            if (side === 'right') {
+                left -= fromRemToPx(padding);
+            }
+
+            const rect: CardRect = {
+                top: el.offsetTop - fromRemToPx(translateY),
+                left,
+                width: el.offsetWidth,
+                height: el.offsetHeight,
+            };
+            onClick(rect);
+        }
+    }, [element, padding, side, onClick]);
+
+    useEffect(() => {
+        if (autoPlay && !disabled) {
+            clickHandler();
+        }
+    }, [autoPlay, disabled, clickHandler]);
 
     return (
         <div
@@ -72,21 +121,8 @@ function DeckCard(props: DeckCardProps) {
                 transform: `translate(-50%, -${translateY}rem) rotate(-90deg)`,
             }}
             onClick={() => {
-                if (element.current !== null) {
-                    const el = element.current;
-                    let left = el.offsetLeft;
-
-                    if (props.side === 'right') {
-                        left -= fromRemToPx(props.padding);
-                    }
-
-                    const rect: CardRect = {
-                        top: el.offsetTop - fromRemToPx(translateY),
-                        left,
-                        width: el.offsetWidth,
-                        height: el.offsetHeight,
-                    };
-                    props.onClick(rect);
+                if (!autoPlay) {
+                    clickHandler();
                 }
             }}
         >

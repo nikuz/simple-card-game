@@ -115,9 +115,9 @@ function App() {
         }
 
         if (winner) {
-            gameOverText = `${winner} player wins with score ${winnerScore}.`;
+            gameOverText = `${winner} player wins with score ${winnerScore}`;
         } else {
-            gameOverText = `The game ended in a draw.`;
+            gameOverText = `The game ended in a draw`;
         }
     }
 
@@ -139,6 +139,7 @@ function App() {
                 roundWinner={roundWinner}
             />
             <DeckComponent
+                autoPlay
                 side="right"
                 disabled={!!rightSide.card}
                 list={rightDeck.current.cardsInDeck}
