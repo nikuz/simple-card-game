@@ -27,20 +27,20 @@
 }
 
 .tccc-wrapper-exit {
-    top: 5rem!important;
+    top: 7rem!important;
     width: 0!important;
     height: 0!important;
 }
 
 .tccc-wrapper-exit-active.tc-winner-left {
     left: 0!important;
-    transform: translate(100%, -150%) rotate(-30deg)!important;
+    transform: translate(100%, -100%) rotate(-30deg)!important;
 }
 
 .tccc-wrapper-exit-active.tc-winner-right {
     left: 100%!important;
     right: 0!important;
-    transform: translate(-300%, -150%) rotate(30deg)!important;
+    transform: translate(-300%, -100%) rotate(30deg)!important;
 }
 
 .tccc-wrapper-exit-active.tc-winner-draw {

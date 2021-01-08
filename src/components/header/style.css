@@ -1,17 +1,24 @@
 
 .header-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     position: absolute;
     left: 50%;
     top: 5rem;
     transform: translateX(-50%);
-    width: 50%;
+    width: 40%;
+    padding: 0 10rem;
     color: var(--white);
     z-index: 100;
 }
 
+.hc-switch {
+    margin: 0 2rem;
+}
+
 .hc-score {
+    position: absolute;
+    top: 0;
     font-size: 5rem;
     font-weight: bold;
 }

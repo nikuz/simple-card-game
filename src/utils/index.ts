@@ -22,14 +22,17 @@ export function arrayShuffle<T>(array: T[]): T[] {
     return copy;
 }
 
-export const getCssProperty = (property: string[]): string[] => {
+export const getCssProperty = (
+    property: string[],
+    element?: HTMLElement | null
+): string[] => {
     const result: string[] = [];
 
     if (!document.documentElement) {
         return result;
     }
 
-    const styles = getComputedStyle(document.documentElement);
+    const styles = getComputedStyle(element || document.documentElement);
 
     property.forEach((item: string) => {
         result.push(styles.getPropertyValue(`--${item}`));

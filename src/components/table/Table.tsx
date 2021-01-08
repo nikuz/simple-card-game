@@ -32,12 +32,12 @@ export default function Table(props: Props) {
     const container = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const refreshTableTimer = setInterval(() => {
+        const refreshTableTimer = setTimeout(() => {
             if (roundWinner) {
                 onClear(roundWinner); // eslint-disable-line react-hooks/exhaustive-deps
             }
         }, REFRESH_TABLE_TIME);
-        return () => clearInterval(refreshTableTimer);
+        return () => clearTimeout(refreshTableTimer);
     }, [roundWinner, onClear]);
 
     return (
@@ -107,7 +107,7 @@ function TableCard(props: TableCardProps) {
             in={card && !roundWinner}
             nodeRef={container}
             unmountOnExit
-            timeout={500}
+            timeout={REFRESH_TABLE_TIME}
             classNames="tccc-wrapper"
         >
             <div

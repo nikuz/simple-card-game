@@ -18,10 +18,12 @@ export default function Header(props: Props) {
             </div>
             <SwitchComponent
                 text="Reveal cards"
+                className="hc-switch"
                 onChange={props.onChangeRevealCards}
             />
             <SwitchComponent
                 text="Autoplay"
+                className="hc-switch"
                 onChange={props.onChangeAutoPlay}
             />
             <div className="hc-score hcs-right">

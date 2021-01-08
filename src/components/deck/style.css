@@ -1,4 +1,6 @@
-
+:root {
+    --hover-padding: 5rem;
+}
 
 .deck-container {
     position: relative;

@@ -21,10 +21,10 @@ export default function Preloader(props: Props) {
         if (loadingCounter === cardsList.length - 1) {
             onLoading();
         }
-        const timeoutTimer = setInterval(() => {
+        const timeoutTimer = setTimeout(() => {
             onLoading();
         }, TIMEOUT);
-        return () => clearInterval(timeoutTimer);
+        return () => clearTimeout(timeoutTimer);
     }, [loadingCounter, cardsList.length, onLoading]);
 
     const imageLoadingHandler = useCallback(() => {

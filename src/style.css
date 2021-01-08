@@ -35,7 +35,7 @@ body {
 
 .app-container {
     display: grid;
-    grid-template-columns: 50rem 92rem 50rem;
+    grid-template-columns: 25% auto 25%;
     background-color: #2B6C55;
     box-shadow: inset 0 0 0.1rem 1rem rgba(0, 0, 0, .3);
 }

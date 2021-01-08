@@ -39,7 +39,7 @@ export default function Deck(props: Props) {
     });
 
     const cardMargin = deckHeight / (list.length - 1);
-    const [padding] = getCssProperty(['hover-padding']);
+    let padding = parseInt(getCssProperty(['hover-padding'])[0],10);
 
     let autoPlayCard: number;
     if (autoPlay && !disabled) {
@@ -57,7 +57,7 @@ export default function Deck(props: Props) {
                     revealed={props.revealed}
                     disabled={disabled}
                     position={i * cardMargin}
-                    padding={parseInt(padding, 10)}
+                    padding={padding || 0}
                     onClick={(rect: CardRect) => {
                         props.onCardChoose(side, card.id, rect);
                     }}
@@ -111,9 +111,12 @@ function DeckCard(props: DeckCardProps) {
     }, [element, padding, side, onClick]);
 
     useEffect(() => {
-        if (autoPlay && !disabled) {
-            clickHandler();
-        }
+        const autoSelectFrame = setTimeout(() => {
+            if (autoPlay && !disabled) {
+                clickHandler();
+            }
+        }, 10);
+        return () => clearTimeout(autoSelectFrame);
     }, [autoPlay, disabled, clickHandler]);
 
     return (

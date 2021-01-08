@@ -84,7 +84,7 @@ export default function Canvas() {
     }, []);
 
     useEffect(() => {
-        const finishRoundTimer = setInterval(() => {
+        const finishRoundTimer = setTimeout(() => {
             if (leftSide.card && rightSide.card) {
                 let winner: Winner | undefined;
                 if (leftSide.card.rank > rightSide.card.rank) {
@@ -97,7 +97,7 @@ export default function Canvas() {
                 setRoundWinner(winner);
             }
         }, FINISH_ROUND_TIME);
-        return () => clearInterval(finishRoundTimer);
+        return () => clearTimeout(finishRoundTimer);
     }, [leftSide.card, rightSide.card, leftScore, rightScore]);
 
     useEffect(() => {
