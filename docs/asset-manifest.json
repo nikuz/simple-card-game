@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/simple-card-game/static/css/main.c1b6aaa1.chunk.css",
-    "main.js": "/simple-card-game/static/js/main.d004a5a4.chunk.js",
-    "main.js.map": "/simple-card-game/static/js/main.d004a5a4.chunk.js.map",
+    "main.css": "/simple-card-game/static/css/main.8294a59f.chunk.css",
+    "main.js": "/simple-card-game/static/js/main.7e2ebaea.chunk.js",
+    "main.js.map": "/simple-card-game/static/js/main.7e2ebaea.chunk.js.map",
     "runtime-main.js": "/simple-card-game/static/js/runtime-main.447bd98b.js",
     "runtime-main.js.map": "/simple-card-game/static/js/runtime-main.447bd98b.js.map",
-    "static/js/2.0299fdf0.chunk.js": "/simple-card-game/static/js/2.0299fdf0.chunk.js",
-    "static/js/2.0299fdf0.chunk.js.map": "/simple-card-game/static/js/2.0299fdf0.chunk.js.map",
+    "static/js/2.45601d71.chunk.js": "/simple-card-game/static/js/2.45601d71.chunk.js",
+    "static/js/2.45601d71.chunk.js.map": "/simple-card-game/static/js/2.45601d71.chunk.js.map",
     "static/js/3.c5635138.chunk.js": "/simple-card-game/static/js/3.c5635138.chunk.js",
     "static/js/3.c5635138.chunk.js.map": "/simple-card-game/static/js/3.c5635138.chunk.js.map",
     "index.html": "/simple-card-game/index.html",
-    "static/css/main.c1b6aaa1.chunk.css.map": "/simple-card-game/static/css/main.c1b6aaa1.chunk.css.map",
-    "static/js/2.0299fdf0.chunk.js.LICENSE.txt": "/simple-card-game/static/js/2.0299fdf0.chunk.js.LICENSE.txt",
+    "static/css/main.8294a59f.chunk.css.map": "/simple-card-game/static/css/main.8294a59f.chunk.css.map",
+    "static/js/2.45601d71.chunk.js.LICENSE.txt": "/simple-card-game/static/js/2.45601d71.chunk.js.LICENSE.txt",
     "static/media/loading.4f271669.svg": "/simple-card-game/static/media/loading.4f271669.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.447bd98b.js",
-    "static/js/2.0299fdf0.chunk.js",
-    "static/css/main.c1b6aaa1.chunk.css",
-    "static/js/main.d004a5a4.chunk.js"
+    "static/js/2.45601d71.chunk.js",
+    "static/css/main.8294a59f.chunk.css",
+    "static/js/main.7e2ebaea.chunk.js"
   ]
 }
