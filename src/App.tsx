@@ -4,6 +4,7 @@ import DeckComponent from './components/deck';
 import TableComponent from './components/table';
 import WrapComponent from './components/wrap';
 import OverlayComponent from './components/overlay';
+import HeaderComponent from './components/header';
 import DeckModel from './models/Deck';
 import type {
     SideSelection,
@@ -18,7 +19,7 @@ const FINISH_ROUND_TIME = 1000;
 const emptySelection: SideSelection = {};
 
 function App() {
-    let leftDeck = useRef(new DeckModel('blue'));
+    let leftDeck = useRef(new DeckModel('green'));
     let rightDeck = useRef(new DeckModel('red'));
     const [leftSide, setLeftSideSelection] = useState<SideSelection>(emptySelection);
     const [leftScore, setLeftScore] = useState(0);
@@ -26,6 +27,8 @@ function App() {
     const [rightScore, setRightScore] = useState(0);
     const [firstAttack, setFirstAttack] = useState<Side>();
     const [roundWinner, setRoundWinner] = useState<Winner>();
+    const [fullAutoPlay, setFullAutoPlay] = useState(false);
+    const [cardsRevealed, setCardsRevealed] = useState(false);
     const [gameOver, setGameOver] = useState(false);
 
     const cardChooseHandler = useCallback((side: Side, cardId: string, cardRect: CardRect) => {
@@ -68,13 +71,6 @@ function App() {
         setRoundWinner(undefined);
         setLeftSideSelection(emptySelection);
         setRightSideSelection(emptySelection);
-
-        if (
-            leftDeck.current.cardsInDeck.length === 0
-            && rightDeck.current.cardsInDeck.length === 0
-        ) {
-            setGameOver(true);
-        }
     }, [leftScore, rightScore]);
 
     const restart = useCallback(() => {
@@ -102,6 +98,16 @@ function App() {
         return () => clearInterval(finishRoundTimer);
     }, [leftSide.card, rightSide.card, leftScore, rightScore]);
 
+    useEffect(() => {
+        if (
+            !roundWinner
+            && leftDeck.current.cardsInDeck.length === 0
+            && rightDeck.current.cardsInDeck.length === 0
+        ) {
+            setGameOver(true);
+        }
+    }, [roundWinner]);
+
     let gameOverText = '';
     if (gameOver) {
         let winner;
@@ -123,7 +129,15 @@ function App() {
 
     return (
         <WrapComponent className="app-container">
+            <HeaderComponent
+                leftScore={leftScore}
+                rightScore={rightScore}
+                onChangeAutoPlay={setFullAutoPlay}
+                onChangeRevealCards={setCardsRevealed}
+            />
             <DeckComponent
+                autoPlay={fullAutoPlay}
+                revealed={cardsRevealed}
                 side="left"
                 disabled={!!leftSide.card}
                 list={leftDeck.current.cardsInDeck}
@@ -131,9 +145,7 @@ function App() {
             />
             <TableComponent
                 leftSide={leftSide}
-                leftScore={leftScore}
                 rightSide={rightSide}
-                rightScore={rightScore}
                 firstAttack={firstAttack}
                 onClear={setScore}
                 roundWinner={roundWinner}

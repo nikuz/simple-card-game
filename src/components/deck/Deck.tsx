@@ -21,6 +21,7 @@ interface Props {
     autoPlay?: boolean,
     side: Side,
     disabled: boolean,
+    revealed?: boolean,
     list: CardModel[],
     onCardChoose: (side: Side, cardId: string, rect: CardRect) => void,
 }
@@ -53,6 +54,7 @@ export default function Deck(props: Props) {
                     side={side}
                     card={card}
                     autoPlay={i === autoPlayCard}
+                    revealed={props.revealed}
                     disabled={disabled}
                     position={i * cardMargin}
                     padding={parseInt(padding, 10)}
@@ -70,6 +72,7 @@ interface DeckCardProps {
     side: Side,
     card: CardModel,
     autoPlay: boolean,
+    revealed?: boolean,
     disabled: boolean,
     position: number,
     padding: number,
@@ -79,6 +82,7 @@ interface DeckCardProps {
 function DeckCard(props: DeckCardProps) {
     const {
         autoPlay,
+        revealed,
         disabled,
         onClick,
         padding,
@@ -126,7 +130,11 @@ function DeckCard(props: DeckCardProps) {
                 }
             }}
         >
-            <CardComponent size="small" {...props.card} />
+            <CardComponent
+                {...props.card}
+                open={revealed}
+                size="small"
+            />
         </div>
     );
 }

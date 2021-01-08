@@ -1,7 +1,7 @@
 
 import CardModel from '../models/Card';
 
-export type Color = 'red' | 'green' | 'blue' | 'yellow';
+export type Color = 'red' | 'green' | 'blue' | 'yellow' | 'gray' | 'purple';
 
 export type Side = 'left' | 'right';
 

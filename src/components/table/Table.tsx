@@ -16,9 +16,7 @@ const REFRESH_TABLE_TIME = 500;
 
 interface Props {
     leftSide: SideSelection,
-    leftScore: number,
     rightSide: SideSelection,
-    rightScore: number,
     firstAttack?: Side,
     roundWinner?: Winner,
     onClear: (roundWinner: Winner) => void,
@@ -44,9 +42,6 @@ export default function Table(props: Props) {
 
     return (
         <div className="table-container" ref={container}>
-            <div className="tc-score tcs-left">
-                {props.leftScore}
-            </div>
             <TableCard
                 side="left"
                 card={leftSide.card}
@@ -55,9 +50,6 @@ export default function Table(props: Props) {
                 zIndex={props.firstAttack === 'left' ? 1 : 2}
                 roundWinner={roundWinner}
             />
-            <div className="tc-score tcs-right">
-                {props.rightScore}
-            </div>
             <TableCard
                 side="right"
                 card={rightSide.card}
@@ -139,7 +131,7 @@ function TableCard(props: TableCardProps) {
                         { card && (
                             <CardComponent
                                 {...card}
-                                open={true}
+                                open
                                 size="flexible"
                             />
                         )}

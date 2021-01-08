@@ -93,19 +93,3 @@
 .rccc-back {
     transform: rotateY(180deg);
 }
-
-.tc-score {
-    position: absolute;
-    top: 5rem;
-    font-size: 5rem;
-    font-weight: bold;
-    color: var(--accent);
-}
-
-.tcs-left {
-    left: 0;
-}
-
-.tcs-right {
-    right: 0;
-}
