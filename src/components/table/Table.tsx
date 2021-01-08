@@ -72,8 +72,8 @@ export default function Table(props: Props) {
 
 interface TableCardProps {
     side: Side,
-    card: CardModel,
-    rect: CardRect,
+    card?: CardModel,
+    rect?: CardRect,
     wrapper: HTMLDivElement | null,
     zIndex: number,
     roundWinner?: Winner,
@@ -90,7 +90,7 @@ function TableCard(props: TableCardProps) {
 
     const cardRect = props.rect;
     let rect = {};
-    if (wrapper !== null) {
+    if (cardRect && wrapper !== null) {
         let left = cardRect.left;
         if (side === 'left') {
             left -= wrapper.offsetLeft;
@@ -112,7 +112,7 @@ function TableCard(props: TableCardProps) {
 
     return (
         <CSSTransition
-            in={card.rankId !=='' && !roundWinner}
+            in={card && !roundWinner}
             nodeRef={container}
             unmountOnExit
             timeout={500}
@@ -128,17 +128,21 @@ function TableCard(props: TableCardProps) {
             >
                 <div className="tccc-inner">
                     <div className="rccc-front">
-                        <CardComponent
-                            {...card}
-                            size="flexible"
-                        />
+                        { card && (
+                            <CardComponent
+                                {...card}
+                                size="flexible"
+                            />
+                        )}
                     </div>
                     <div className="rccc-back">
-                        <CardComponent
-                            {...card}
-                            open={true}
-                            size="flexible"
-                        />
+                        { card && (
+                            <CardComponent
+                                {...card}
+                                open={true}
+                                size="flexible"
+                            />
+                        )}
                     </div>
                 </div>
             </div>

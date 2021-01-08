@@ -1,6 +1,8 @@
 
 import CardModel from '../models/Card';
 
+export type Color = 'red' | 'green' | 'blue' | 'yellow';
+
 export type Side = 'left' | 'right';
 
 export type CardRect = {
@@ -11,8 +13,8 @@ export type CardRect = {
 };
 
 export type SideSelection = {
-    card: CardModel,
-    rect: CardRect,
+    card?: CardModel,
+    rect?: CardRect,
 };
 
 export type Winner = Side | & 'draw';

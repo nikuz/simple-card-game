@@ -1,8 +1,11 @@
 
+import { Color } from '../types';
+
 interface Props {
     id: string,
     rank: number,
     rankId: string,
+    color: Color,
 }
 
 export default class Card {
@@ -11,7 +14,8 @@ export default class Card {
         this.rank = props.rank;
         this.rankId = props.rankId;
         this.front = `/cards/${props.id}.png`;
-        this.back = `/cards/blue_back.png`;
+        this.back = `/cards/${props.color}_back.png`;
+        this.color = props.color;
     }
 
     rank: number;
@@ -23,4 +27,6 @@ export default class Card {
     front: string;
 
     back: string;
+
+    color: Color;
 }

@@ -5,7 +5,6 @@ import TableComponent from './components/table';
 import WrapComponent from './components/wrap';
 import OverlayComponent from './components/overlay';
 import DeckModel from './models/Deck';
-import CardModel from './models/Card';
 import type {
     SideSelection,
     Side,
@@ -16,27 +15,11 @@ import './style.css';
 
 const FINISH_ROUND_TIME = 1000;
 
-const emptyCard = new CardModel({
-    id: '',
-    rank: -1,
-    rankId: '',
-});
-
-const emptyRect = {
-    top: 0,
-    left: 0,
-    width: 0,
-    height: 0,
-};
-
-const emptySelection: SideSelection = {
-    card: emptyCard,
-    rect: emptyRect,
-};
+const emptySelection: SideSelection = {};
 
 function App() {
-    let leftDeck = useRef(new DeckModel());
-    let rightDeck = useRef(new DeckModel());
+    let leftDeck = useRef(new DeckModel('blue'));
+    let rightDeck = useRef(new DeckModel('red'));
     const [leftSide, setLeftSideSelection] = useState<SideSelection>(emptySelection);
     const [leftScore, setLeftScore] = useState(0);
     const [rightSide, setRightSideSelection] = useState<SideSelection>(emptySelection);
@@ -53,7 +36,7 @@ function App() {
                     card: card,
                     rect: cardRect,
                 });
-                if (rightSide.card.rankId === '') {
+                if (!rightSide.card) {
                     setFirstAttack('left');
                 }
             }
@@ -64,12 +47,12 @@ function App() {
                     card: card,
                     rect: cardRect,
                 });
-                if (leftSide.card.rankId === '') {
+                if (!leftSide.card) {
                     setFirstAttack('right');
                 }
             }
         }
-    }, [leftSide.card.rankId, rightSide.card.rankId]);
+    }, [leftSide.card, rightSide.card]);
 
     const setScore = useCallback((winner: Winner) => {
         switch (winner) {
@@ -104,7 +87,7 @@ function App() {
 
     useEffect(() => {
         const finishRoundTimer = setInterval(() => {
-            if (leftSide.card.rank !== -1 && rightSide.card.rank !== -1) {
+            if (leftSide.card && rightSide.card) {
                 let winner: Winner | undefined;
                 if (leftSide.card.rank > rightSide.card.rank) {
                     winner = 'left';
@@ -117,7 +100,7 @@ function App() {
             }
         }, FINISH_ROUND_TIME);
         return () => clearInterval(finishRoundTimer);
-    }, [leftSide, rightSide, leftScore, rightScore]);
+    }, [leftSide.card, rightSide.card, leftScore, rightScore]);
 
     let gameOverText = '';
     if (gameOver) {
@@ -142,7 +125,7 @@ function App() {
         <WrapComponent className="app-container">
             <DeckComponent
                 side="left"
-                disabled={leftSide.card.rankId !== ''}
+                disabled={!!leftSide.card}
                 list={leftDeck.current.cardsInDeck}
                 onCardChoose={cardChooseHandler}
             />
@@ -157,7 +140,7 @@ function App() {
             />
             <DeckComponent
                 side="right"
-                disabled={rightSide.card.rankId !== ''}
+                disabled={!!rightSide.card}
                 list={rightDeck.current.cardsInDeck}
                 onCardChoose={cardChooseHandler}
             />

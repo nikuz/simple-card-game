@@ -1,5 +1,5 @@
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useLayoutEffect } from 'react';
 import cl from 'classnames';
 import {
     SCREEN_BASE_WIDTH,
@@ -52,7 +52,7 @@ export default function Wrap(props: Props) {
     const containerEl = useRef(null);
     const className = cl('resizable-container', props.className);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const resizeHandler = () => {
             setContainerSize(containerEl.current);
         };
