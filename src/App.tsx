@@ -1,5 +1,5 @@
 
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import DeckComponent from './components/deck';
 import TableComponent from './components/table';
 import WrapComponent from './components/wrap';
@@ -10,8 +10,11 @@ import type {
     SideSelection,
     Side,
     CardRect,
+    Winner,
 } from './types';
 import './style.css';
+
+const FINISH_ROUND_TIME = 1000;
 
 const emptyCard = new CardModel({
     id: '',
@@ -39,9 +42,10 @@ function App() {
     const [rightSide, setRightSideSelection] = useState<SideSelection>(emptySelection);
     const [rightScore, setRightScore] = useState(0);
     const [firstAttack, setFirstAttack] = useState<Side>();
+    const [roundWinner, setRoundWinner] = useState<Winner>();
     const [gameOver, setGameOver] = useState(false);
 
-    const cardChooseHandler = (side: Side, cardId: string, cardRect: CardRect) => {
+    const cardChooseHandler = useCallback((side: Side, cardId: string, cardRect: CardRect) => {
         if (side === 'left') {
             const card = leftDeck.current.pullCardById(cardId);
             if (card) {
@@ -65,35 +69,54 @@ function App() {
                 }
             }
         }
-    };
+    }, [leftSide.card.rankId, rightSide.card.rankId]);
 
-    const restart = () => {
+    const setScore = useCallback((winner: Winner) => {
+        switch (winner) {
+            case "left":
+                setLeftScore(leftScore + 1);
+                break;
+            case "right":
+                setRightScore(rightScore + 1);
+                break;
+            default:
+        }
+
+        setRoundWinner(undefined);
+        setLeftSideSelection(emptySelection);
+        setRightSideSelection(emptySelection);
+
+        if (
+            leftDeck.current.cardsInDeck.length === 0
+            && rightDeck.current.cardsInDeck.length === 0
+        ) {
+            setGameOver(true);
+        }
+    }, [leftScore, rightScore]);
+
+    const restart = useCallback(() => {
         leftDeck.current.collect();
         rightDeck.current.collect();
         setLeftScore(0);
         setRightScore(0);
         setGameOver(false);
-    };
+    }, []);
 
     useEffect(() => {
-        const refreshTableTimer = setInterval(() => {
+        const finishRoundTimer = setInterval(() => {
             if (leftSide.card.rank !== -1 && rightSide.card.rank !== -1) {
+                let winner: Winner | undefined;
                 if (leftSide.card.rank > rightSide.card.rank) {
-                    setLeftScore(leftScore + 1);
+                    winner = 'left';
                 } else if (leftSide.card.rank < rightSide.card.rank) {
-                    setRightScore(rightScore + 1);
+                    winner = 'right';
+                } else {
+                    winner = 'draw';
                 }
-                setLeftSideSelection(emptySelection);
-                setRightSideSelection(emptySelection);
+                setRoundWinner(winner);
             }
-            if (
-                leftDeck.current.cardsInDeck.length === 0
-                && rightDeck.current.cardsInDeck.length === 0
-            ) {
-                setGameOver(true);
-            }
-        }, 1000);
-        return () => clearInterval(refreshTableTimer);
+        }, FINISH_ROUND_TIME);
+        return () => clearInterval(finishRoundTimer);
     }, [leftSide, rightSide, leftScore, rightScore]);
 
     let gameOverText = '';
@@ -129,6 +152,8 @@ function App() {
                 rightSide={rightSide}
                 rightScore={rightScore}
                 firstAttack={firstAttack}
+                onClear={setScore}
+                roundWinner={roundWinner}
             />
             <DeckComponent
                 side="right"

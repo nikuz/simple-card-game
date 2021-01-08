@@ -14,3 +14,5 @@ export type SideSelection = {
     card: CardModel,
     rect: CardRect,
 };
+
+export type Winner = Side | & 'draw';

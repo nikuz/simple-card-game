@@ -21,7 +21,7 @@ interface Props {
     side: Side,
     disabled: boolean,
     list: CardModel[],
-    onCardChoose: (side: Side, cardId: string, rect: CardRect) => any,
+    onCardChoose: (side: Side, cardId: string, rect: CardRect) => void,
 }
 
 export default function Deck(props: Props) {
