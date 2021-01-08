@@ -1,5 +1,6 @@
 
 import React, { useRef, useState, useEffect, useCallback } from 'react';
+import PreloaderComponent from './components/preloader';
 import DeckComponent from './components/deck';
 import TableComponent from './components/table';
 import WrapComponent from './components/wrap';
@@ -18,9 +19,10 @@ const FINISH_ROUND_TIME = 1000;
 
 const emptySelection: SideSelection = {};
 
-function App() {
-    let leftDeck = useRef(new DeckModel('green'));
-    let rightDeck = useRef(new DeckModel('red'));
+export default function Canvas() {
+    const leftDeck = useRef(new DeckModel('green'));
+    const rightDeck = useRef(new DeckModel('red'));
+    const [cardsPreloaded, setCardsPreloaded] = useState(false);
     const [leftSide, setLeftSideSelection] = useState<SideSelection>(emptySelection);
     const [leftScore, setLeftScore] = useState(0);
     const [rightSide, setRightSideSelection] = useState<SideSelection>(emptySelection);
@@ -108,6 +110,10 @@ function App() {
         }
     }, [roundWinner]);
 
+    if (!cardsPreloaded) {
+        return <PreloaderComponent onLoading={() => setCardsPreloaded(true)} />;
+    }
+
     let gameOverText = '';
     if (gameOver) {
         let winner;
@@ -168,5 +174,3 @@ function App() {
         </WrapComponent>
     );
 }
-
-export default App;

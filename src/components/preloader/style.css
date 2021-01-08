@@ -1,0 +1,16 @@
+
+.preloader-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.preloader-deck {
+    position: absolute;
+    top: -100%;
+    left: -100%;
+}
+
+.pcd-card {
+    width: 1rem;
+}
