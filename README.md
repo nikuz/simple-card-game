@@ -3,4 +3,4 @@
 
 [Game preview](https://nikuz.github.io/simple-card-game/)
 
-![alt text](https://github.com/nikuz/simple-card-game/blob/master/public/preview.png?raw=true)
+![alt text](https://github.com/nikuz/simple-card-game/blob/main/public/preview.png?raw=true)
