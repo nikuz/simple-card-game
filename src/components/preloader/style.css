@@ -14,3 +14,13 @@
 .pcd-card {
     width: 0.1rem;
 }
+
+.pc-progress {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--white);
+    font-size: 3rem;
+    font-weight: bold;
+}

@@ -1,13 +1,13 @@
 
 import Card from './Card';
 import { arrayShuffle } from '../utils';
-import { Color } from '../types';
+import { ColorEnum } from '../types';
 
 const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
 const suits = ['C', 'D', 'H', 'S'];
 
 export default class Deck {
-    constructor(color: Color) {
+    constructor(color: ColorEnum) {
         for (let i = 0, l = ranks.length; i < l; i++) {
             for (let j = 0, jl = suits.length; j < jl; j++) {
                 const id = `${ranks[i]}${suits[j]}`;

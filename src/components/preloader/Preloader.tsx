@@ -3,49 +3,83 @@ import React, { useRef, useState, useEffect, useCallback } from 'react';
 import Loading from '../loading';
 import DeckModel from '../../models/Deck';
 import CardModel from '../../models/Card';
+import { ColorEnum } from '../../types';
 import './style.css';
 
-const TIMEOUT = 5000;
-
 interface Props {
+    colors: ColorEnum[],
     onLoading: () => void,
 }
 
 export default function Preloader(props: Props) {
-    const { onLoading } = props;
-    const deck = useRef(new DeckModel('green'));
-    const cardsList = deck.current.cards;
+    const {
+        colors,
+        onLoading,
+    } = props;
+    const firstDeck = useRef(new DeckModel(colors[0]));
+    const secondDeck = useRef(new DeckModel(colors[1]));
+    const cardsList = firstDeck.current.cards;
     const [loadingCounter, setLoadingCounter] = useState(0);
 
+    const totalCardsAmount = cardsList.length + 2;
+
     useEffect(() => {
-        if (loadingCounter === cardsList.length - 1) {
+        if (loadingCounter === totalCardsAmount) {
             onLoading();
         }
-        const timeoutTimer = setTimeout(() => {
-            onLoading();
-        }, TIMEOUT);
-        return () => clearTimeout(timeoutTimer);
-    }, [loadingCounter, cardsList.length, onLoading]);
+    }, [loadingCounter, totalCardsAmount, onLoading]);
 
     const imageLoadingHandler = useCallback(() => {
         setLoadingCounter(loadingCounter + 1);
     }, [loadingCounter]);
 
+    const progress = Math.round(loadingCounter / (totalCardsAmount / 100));
+
     return (
         <div className="preloader-container blocker">
-            <Loading size="small" />
+            <Loading />
+            <div className="pc-progress">
+                {progress || 0}
+                %
+            </div>
             <div className="preloader-deck">
                 { cardsList.map((card: CardModel) => (
-                    <img
+                    <PreloaderCard
                         key={card.id}
                         src={card.front}
-                        className="pcd-card"
-                        alt=""
                         onLoad={imageLoadingHandler}
                         onError={onLoading}
                     />
                 )) }
+                <PreloaderCard
+                    src={cardsList[0].back}
+                    onLoad={imageLoadingHandler}
+                    onError={onLoading}
+                />
+                <PreloaderCard
+                    src={secondDeck.current.cards[0].back}
+                    onLoad={imageLoadingHandler}
+                    onError={onLoading}
+                />
             </div>
         </div>
+    );
+}
+
+interface CardProps {
+    src: string,
+    onLoad: () => void,
+    onError: () => void,
+}
+
+function PreloaderCard(props: CardProps) {
+    return (
+        <img
+            src={props.src}
+            className="pcd-card"
+            alt=""
+            onLoad={props.onLoad}
+            onError={props.onError}
+        />
     );
 }

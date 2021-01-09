@@ -1,12 +1,12 @@
 
-import { Color } from '../types';
 import appParams from '../../package.json';
+import { ColorEnum } from '../types';
 
 interface Props {
     id: string,
     rank: number,
     rankId: string,
-    color: Color,
+    color: ColorEnum,
 }
 
 export default class Card {
@@ -29,5 +29,5 @@ export default class Card {
 
     back: string;
 
-    color: Color;
+    color: ColorEnum;
 }

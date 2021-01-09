@@ -2,10 +2,11 @@
 import React from 'react';
 import cl from 'classnames';
 import CardModel from '../../models/Card';
+import { SizeEnum } from '../../types';
 import './style.css';
 
 interface Props extends CardModel {
-    size: 'small' | 'big' | 'flexible',
+    size: SizeEnum,
     open?: boolean,
 }
 
@@ -15,9 +16,9 @@ export default function Card(props: Props) {
     }
 
     const cardClassName = cl('cc-image', {
-        small: props.size === 'small',
-        big: props.size === 'big',
-        flexible: props.size === 'flexible',
+        small: props.size === SizeEnum.small,
+        big: props.size === SizeEnum.big,
+        flexible: props.size === SizeEnum.flexible,
     });
 
     return (

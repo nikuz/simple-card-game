@@ -16,9 +16,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build && rm -rf docs && mv build docs",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "prebuild": "npm run eslint",
-    "eslint": "eslint src/**/*.ts src/**/*.tsx -f table"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [

@@ -1,8 +1,9 @@
 // @flow
 
-import * as React from 'react';
+import React from 'react';
 import cl from 'classnames';
 import loadingIcon from './loading.svg';
+import { SizeEnum } from '../../types';
 import './style.css';
 
 interface Props {
@@ -14,8 +15,8 @@ export default function Loading(props: Props) {
     const className = cl(
         'loading-icon',
         {
-            small: props.size === 'small',
-            big: props.size === 'big',
+            small: props.size === SizeEnum.small,
+            big: props.size === SizeEnum.big,
         },
         props.className
     );

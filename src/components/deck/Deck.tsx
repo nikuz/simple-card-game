@@ -8,8 +8,9 @@ import {
     fromRemToPx,
     getCssProperty,
 } from '../../utils';
-import type {
-    Side,
+import {
+    SideEnum,
+    SizeEnum,
     CardRect,
 } from '../../types';
 import './style.css';
@@ -19,11 +20,11 @@ const deckHeight = (SCREEN_BASE_HEIGHT - cardWidth); // in rem
 
 interface Props {
     autoPlay?: boolean,
-    side: Side,
+    side: SideEnum,
     disabled: boolean,
     revealed?: boolean,
     list: CardModel[],
-    onCardChoose: (side: Side, cardId: string, rect: CardRect) => void,
+    onCardChoose: (side: SideEnum, cardId: string, rect: CardRect) => void,
 }
 
 export default function Deck(props: Props) {
@@ -69,7 +70,7 @@ export default function Deck(props: Props) {
 }
 
 interface DeckCardProps {
-    side: Side,
+    side: SideEnum,
     card: CardModel,
     autoPlay: boolean,
     revealed?: boolean,
@@ -96,7 +97,7 @@ function DeckCard(props: DeckCardProps) {
             const el = element.current;
             let left = el.offsetLeft;
 
-            if (side === 'right') {
+            if (side === SideEnum.right) {
                 left -= fromRemToPx(padding);
             }
 
@@ -136,7 +137,7 @@ function DeckCard(props: DeckCardProps) {
             <CardComponent
                 {...props.card}
                 open={revealed}
-                size="small"
+                size={SizeEnum.small}
             />
         </div>
     );

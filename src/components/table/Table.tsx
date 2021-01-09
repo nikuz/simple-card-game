@@ -1,14 +1,14 @@
-
-import React, { useRef, useEffect } from 'react';
-import { CSSTransition } from 'react-transition-group';
+import React, {useEffect, useRef} from 'react';
+import {CSSTransition} from 'react-transition-group';
 import cl from 'classnames';
 import CardComponent from '../card/Card';
 import CardModel from '../../models/Card';
 import {
     SideSelection,
-    Side,
+    SideEnum,
+    SizeEnum,
     CardRect,
-    Winner,
+    WinnerEnum,
 } from '../../types';
 import './style.css';
 
@@ -17,9 +17,9 @@ const REFRESH_TABLE_TIME = 500;
 interface Props {
     leftSide: SideSelection,
     rightSide: SideSelection,
-    firstAttack?: Side,
-    roundWinner?: Winner,
-    onClear: (roundWinner: Winner) => void,
+    firstAttack?: SideEnum,
+    roundWinner?: WinnerEnum,
+    onClear: (roundWinner: WinnerEnum) => void,
 }
 
 export default function Table(props: Props) {
@@ -43,19 +43,19 @@ export default function Table(props: Props) {
     return (
         <div className="table-container" ref={container}>
             <TableCard
-                side="left"
+                side={SideEnum.left}
                 card={leftSide.card}
                 rect={leftSide.rect}
                 wrapper={container.current}
-                zIndex={props.firstAttack === 'left' ? 1 : 2}
+                zIndex={props.firstAttack === SideEnum.left ? 1 : 2}
                 roundWinner={roundWinner}
             />
             <TableCard
-                side="right"
+                side={SideEnum.right}
                 card={rightSide.card}
                 rect={rightSide.rect}
                 wrapper={container.current}
-                zIndex={props.firstAttack === 'right' ? 1 : 2}
+                zIndex={props.firstAttack === SideEnum.right ? 1 : 2}
                 roundWinner={roundWinner}
             />
         </div>
@@ -63,12 +63,12 @@ export default function Table(props: Props) {
 }
 
 interface TableCardProps {
-    side: Side,
+    side: SideEnum,
     card?: CardModel,
     rect?: CardRect,
     wrapper: HTMLDivElement | null,
     zIndex: number,
-    roundWinner?: Winner,
+    roundWinner?: WinnerEnum,
 }
 
 function TableCard(props: TableCardProps) {
@@ -84,9 +84,9 @@ function TableCard(props: TableCardProps) {
     let rect = {};
     if (cardRect && wrapper !== null) {
         let left = cardRect.left;
-        if (side === 'left') {
+        if (side === SideEnum.left) {
             left -= wrapper.offsetLeft;
-        } else if (side === 'right') {
+        } else if (side === SideEnum.right) {
             left += wrapper.offsetWidth;
         }
         rect = {
@@ -123,7 +123,7 @@ function TableCard(props: TableCardProps) {
                         { card && (
                             <CardComponent
                                 {...card}
-                                size="flexible"
+                                size={SizeEnum.flexible}
                             />
                         )}
                     </div>
@@ -132,7 +132,7 @@ function TableCard(props: TableCardProps) {
                             <CardComponent
                                 {...card}
                                 open
-                                size="flexible"
+                                size={SizeEnum.flexible}
                             />
                         )}
                     </div>

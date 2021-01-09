@@ -1,9 +1,19 @@
 
 import CardModel from '../models/Card';
 
-export type Color = 'red' | 'green' | 'blue' | 'yellow' | 'gray' | 'purple';
+export enum ColorEnum {
+    red = 'red',
+    green = 'green',
+    blue = 'blue',
+    yellow = 'yellow',
+    gray = 'gray',
+    purple = 'purple',
+}
 
-export type Side = 'left' | 'right';
+export enum SideEnum {
+    left = 'left',
+    right = 'right',
+}
 
 export type CardRect = {
     top: number,
@@ -17,4 +27,14 @@ export type SideSelection = {
     rect?: CardRect,
 };
 
-export type Winner = Side | & 'draw';
+export enum WinnerEnum {
+    left = 'left',
+    right = 'right',
+    draw = 'draw',
+}
+
+export enum SizeEnum {
+    small = 'small',
+    big = 'big',
+    flexible = 'flexible',
+}

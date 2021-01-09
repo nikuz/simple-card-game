@@ -1,5 +1,10 @@
 
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, {
+    useCallback,
+    useEffect,
+    useRef,
+    useState,
+} from 'react';
 import PreloaderComponent from './components/preloader';
 import DeckComponent from './components/deck';
 import TableComponent from './components/table';
@@ -7,11 +12,12 @@ import WrapComponent from './components/wrap';
 import OverlayComponent from './components/overlay';
 import HeaderComponent from './components/header';
 import DeckModel from './models/Deck';
-import type {
-    SideSelection,
-    Side,
+import {
     CardRect,
-    Winner,
+    SideEnum,
+    SideSelection,
+    WinnerEnum,
+    ColorEnum,
 } from './types';
 import './style.css';
 
@@ -20,21 +26,23 @@ const FINISH_ROUND_TIME = 1000;
 const emptySelection: SideSelection = {};
 
 export default function Canvas() {
-    const leftDeck = useRef(new DeckModel('green'));
-    const rightDeck = useRef(new DeckModel('red'));
+    const leftDeckColor = ColorEnum.green;
+    const rightDeckColor = ColorEnum.red;
+    const leftDeck = useRef(new DeckModel(leftDeckColor));
+    const rightDeck = useRef(new DeckModel(rightDeckColor));
     const [cardsPreloaded, setCardsPreloaded] = useState(false);
     const [leftSide, setLeftSideSelection] = useState<SideSelection>(emptySelection);
     const [leftScore, setLeftScore] = useState(0);
     const [rightSide, setRightSideSelection] = useState<SideSelection>(emptySelection);
     const [rightScore, setRightScore] = useState(0);
-    const [firstAttack, setFirstAttack] = useState<Side>();
-    const [roundWinner, setRoundWinner] = useState<Winner>();
+    const [firstAttack, setFirstAttack] = useState<SideEnum>();
+    const [roundWinner, setRoundWinner] = useState<WinnerEnum>();
     const [fullAutoPlay, setFullAutoPlay] = useState(false);
     const [cardsRevealed, setCardsRevealed] = useState(false);
     const [gameOver, setGameOver] = useState(false);
 
-    const cardChooseHandler = useCallback((side: Side, cardId: string, cardRect: CardRect) => {
-        if (side === 'left') {
+    const cardChooseHandler = useCallback((side: SideEnum, cardId: string, cardRect: CardRect) => {
+        if (side === SideEnum.left) {
             const card = leftDeck.current.pullCardById(cardId);
             if (card) {
                 setLeftSideSelection({
@@ -42,7 +50,7 @@ export default function Canvas() {
                     rect: cardRect,
                 });
                 if (!rightSide.card) {
-                    setFirstAttack('left');
+                    setFirstAttack(SideEnum.left);
                 }
             }
         } else {
@@ -53,18 +61,18 @@ export default function Canvas() {
                     rect: cardRect,
                 });
                 if (!leftSide.card) {
-                    setFirstAttack('right');
+                    setFirstAttack(SideEnum.right);
                 }
             }
         }
     }, [leftSide.card, rightSide.card]);
 
-    const setScore = useCallback((winner: Winner) => {
+    const setScore = useCallback((winner: WinnerEnum) => {
         switch (winner) {
-            case 'left':
+            case WinnerEnum.left:
                 setLeftScore(leftScore + 1);
                 break;
-            case 'right':
+            case WinnerEnum.right:
                 setRightScore(rightScore + 1);
                 break;
             default:
@@ -86,13 +94,13 @@ export default function Canvas() {
     useEffect(() => {
         const finishRoundTimer = setTimeout(() => {
             if (leftSide.card && rightSide.card) {
-                let winner: Winner | undefined;
+                let winner: WinnerEnum | undefined;
                 if (leftSide.card.rank > rightSide.card.rank) {
-                    winner = 'left';
+                    winner = WinnerEnum.left;
                 } else if (leftSide.card.rank < rightSide.card.rank) {
-                    winner = 'right';
+                    winner = WinnerEnum.right;
                 } else {
-                    winner = 'draw';
+                    winner = WinnerEnum.draw;
                 }
                 setRoundWinner(winner);
             }
@@ -111,7 +119,14 @@ export default function Canvas() {
     }, [roundWinner]);
 
     if (!cardsPreloaded) {
-        return <PreloaderComponent onLoading={() => setCardsPreloaded(true)} />;
+        return (
+            <WrapComponent className="app-container">
+                <PreloaderComponent
+                    colors={[leftDeckColor, rightDeckColor]}
+                    onLoading={() => setCardsPreloaded(true)}
+                />
+            </WrapComponent>
+        );
     }
 
     let gameOverText = '';
@@ -119,10 +134,10 @@ export default function Canvas() {
         let winner;
         let winnerScore;
         if (leftScore > rightScore) {
-            winner = 'left';
+            winner = WinnerEnum.left;
             winnerScore = leftScore;
         } else if (leftScore < rightScore) {
-            winner = 'right';
+            winner = WinnerEnum.right;
             winnerScore = rightScore;
         }
 
@@ -144,7 +159,7 @@ export default function Canvas() {
             <DeckComponent
                 autoPlay={fullAutoPlay}
                 revealed={cardsRevealed}
-                side="left"
+                side={SideEnum.left}
                 disabled={!!leftSide.card}
                 list={leftDeck.current.cardsInDeck}
                 onCardChoose={cardChooseHandler}
@@ -158,7 +173,7 @@ export default function Canvas() {
             />
             <DeckComponent
                 autoPlay
-                side="right"
+                side={SideEnum.right}
                 disabled={!!rightSide.card}
                 list={rightDeck.current.cardsInDeck}
                 onCardChoose={cardChooseHandler}
