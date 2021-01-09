@@ -1,6 +1,6 @@
 {
   "name": "simple-card-game",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "private": false,
   "homepage": "https://nikuz.github.io/simple-card-game",
   "dependencies": {
@@ -25,12 +25,24 @@
     ],
     "rules": {
       "semi": "error",
-      "indent": ["error", 4, {
-        "SwitchCase": 1
-      }],
-      "object-shorthand": ["error"],
-      "quotes": ["error", "single"],
-      "quote-props": ["error", "as-needed"],
+      "indent": [
+        "error",
+        4,
+        {
+          "SwitchCase": 1
+        }
+      ],
+      "object-shorthand": [
+        "error"
+      ],
+      "quotes": [
+        "error",
+        "single"
+      ],
+      "quote-props": [
+        "error",
+        "as-needed"
+      ],
       "no-param-reassign": "error"
     }
   },
