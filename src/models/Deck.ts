@@ -31,22 +31,23 @@ export default class Deck {
         this.cardsInDeck = arrayShuffle(this.cardsInDeck);
     };
 
-    pullCardByIndex = (index: number): Card | undefined => {
+    pullCardByIndex = (index: number): Card | null => {
         if (index < 0 || index > this.cardsInDeck.length) {
-            return;
+            return null;
         }
 
-        return this.cardsInDeck.splice(index, 1)[0];
+        return this.cardsInDeck.splice(index, 1)[0] || null;
     };
 
-    pullCardById = (id: string): Card | undefined => {
+    pullCardById = (id: string): Card | null => {
         const cardIndex = this.cardsInDeck.findIndex((item) => item.id === id);
 
         if (cardIndex !== -1) {
-            return this.cardsInDeck.splice(cardIndex, 1)[0];
+            return this.cardsInDeck.splice(cardIndex, 1)[0] || null;
+
         }
 
-        return undefined;
+        return null;
     };
 
     collect = () => {
