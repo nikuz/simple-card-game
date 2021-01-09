@@ -47,5 +47,5 @@ export default function Preloader(props: Props) {
                 )) }
             </div>
         </div>
-    )
+    );
 }

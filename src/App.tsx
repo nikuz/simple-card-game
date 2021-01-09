@@ -38,7 +38,7 @@ export default function Canvas() {
             const card = leftDeck.current.pullCardById(cardId);
             if (card) {
                 setLeftSideSelection({
-                    card: card,
+                    card,
                     rect: cardRect,
                 });
                 if (!rightSide.card) {
@@ -49,7 +49,7 @@ export default function Canvas() {
             const card = rightDeck.current.pullCardById(cardId);
             if (card) {
                 setRightSideSelection({
-                    card: card,
+                    card,
                     rect: cardRect,
                 });
                 if (!leftSide.card) {
@@ -61,10 +61,10 @@ export default function Canvas() {
 
     const setScore = useCallback((winner: Winner) => {
         switch (winner) {
-            case "left":
+            case 'left':
                 setLeftScore(leftScore + 1);
                 break;
-            case "right":
+            case 'right':
                 setRightScore(rightScore + 1);
                 break;
             default:
@@ -129,7 +129,7 @@ export default function Canvas() {
         if (winner) {
             gameOverText = `${winner} player wins with score ${winnerScore}`;
         } else {
-            gameOverText = `The game ended in a draw`;
+            gameOverText = 'The game ended in a draw';
         }
     }
 

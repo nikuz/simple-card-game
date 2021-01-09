@@ -7,7 +7,7 @@ import {
 // https://bost.ocks.org/mike/shuffle/
 export function arrayShuffle<T>(array: T[]): T[] {
     const copy: T[] = [];
-    let n = array.length
+    let n = array.length;
     let i;
 
     while (n) {

@@ -15,7 +15,7 @@ export default function Loading(props: Props) {
         'loading-icon',
         {
             small: props.size === 'small',
-            'big': props.size === 'big',
+            big: props.size === 'big',
         },
         props.className
     );

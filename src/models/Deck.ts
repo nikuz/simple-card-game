@@ -40,7 +40,7 @@ export default class Deck {
     };
 
     pullCardById = (id: string): Card | undefined => {
-        const cardIndex = this.cardsInDeck.findIndex(item => item.id === id);
+        const cardIndex = this.cardsInDeck.findIndex((item) => item.id === id);
 
         if (cardIndex !== -1) {
             return this.cardsInDeck.splice(cardIndex, 1)[0];
@@ -50,7 +50,7 @@ export default class Deck {
     };
 
     collect = () => {
-        this.cardsInDeck = [ ...this.cards ];
+        this.cardsInDeck = [...this.cards];
         this.shuffle();
     };
 }

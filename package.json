@@ -4,13 +4,6 @@
   "private": false,
   "homepage": "https://nikuz.github.io/simple-card-game",
   "dependencies": {
-    "@testing-library/jest-dom": "^5.11.6",
-    "@testing-library/react": "^11.2.2",
-    "@testing-library/user-event": "^12.6.0",
-    "@types/jest": "^26.0.19",
-    "@types/node": "^12.19.9",
-    "@types/react": "^16.14.2",
-    "@types/react-dom": "^16.9.10",
     "classnames": "^2.2.6",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -25,13 +18,23 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prebuild": "npm run eslint",
-    "eslint": "eslint src/**/*.ts src/**/*.tsx"
+    "eslint": "eslint src/**/*.ts src/**/*.tsx -f table"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "semi": "error",
+      "indent": ["error", 4, {
+        "SwitchCase": 1
+      }],
+      "object-shorthand": ["error"],
+      "quotes": ["error", "single"],
+      "quote-props": ["error", "as-needed"],
+      "no-param-reassign": "error"
+    }
   },
   "browserslist": {
     "production": [
@@ -46,7 +49,14 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.11.6",
+    "@testing-library/react": "^11.2.2",
+    "@testing-library/user-event": "^12.6.0",
     "@types/classnames": "^2.2.11",
+    "@types/jest": "^26.0.19",
+    "@types/node": "^12.19.9",
+    "@types/react": "^16.14.2",
+    "@types/react-dom": "^16.9.10",
     "@types/react-transition-group": "^4.4.0"
   }
 }
