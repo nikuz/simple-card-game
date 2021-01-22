@@ -9,15 +9,7 @@ const suits = ['C', 'D', 'H', 'S'];
 export default class Deck {
     constructor(color: ColorEnum) {
         for (let i = 0, l = ranks.length; i < l; i++) {
-            for (let j = 0, jl = suits.length; j < jl; j++) {
-                const id = `${ranks[i]}${suits[j]}`;
-                this.cards.push(new Card({
-                    rank: i,
-                    rankId: ranks[i],
-                    id,
-                    color,
-                }));
-            }
+            this.populateRank(i, color);
         }
         this.cardsInDeck = [ ...this.cards ];
         this.shuffle();
@@ -26,6 +18,18 @@ export default class Deck {
     cards: Card[] = [];
 
     cardsInDeck: Card[] = [];
+
+    private populateRank = (rank: number, color: ColorEnum) => {
+        for (let j = 0, jl = suits.length; j < jl; j++) {
+            const id = `${ranks[rank]}${suits[j]}`;
+            this.cards.push(new Card({
+                rank,
+                rankId: ranks[rank],
+                id,
+                color,
+            }));
+        }
+    };
 
     shuffle = () => {
         this.cardsInDeck = arrayShuffle(this.cardsInDeck);

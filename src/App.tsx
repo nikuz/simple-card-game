@@ -1,9 +1,9 @@
 
 import React, {
+    useReducer,
     useCallback,
     useEffect,
     useRef,
-    useState,
 } from 'react';
 import PreloaderComponent from './components/preloader';
 import DeckComponent from './components/deck';
@@ -13,82 +13,89 @@ import OverlayComponent from './components/overlay';
 import HeaderComponent from './components/header';
 import DeckModel from './models/Deck';
 import {
+    initialAppState,
+    actions,
+    reducer,
+} from './store';
+import {
     CardRect,
     SideEnum,
-    SideSelection,
     WinnerEnum,
     ColorEnum,
 } from './types';
 import './style.css';
 
 const FINISH_ROUND_TIME = 1000;
-
-const emptySelection: SideSelection = {};
+const leftDeckColor = ColorEnum.green;
+const rightDeckColor = ColorEnum.red;
 
 export default function Canvas() {
-    const leftDeckColor = ColorEnum.green;
-    const rightDeckColor = ColorEnum.red;
     const leftDeck = useRef(new DeckModel(leftDeckColor));
     const rightDeck = useRef(new DeckModel(rightDeckColor));
-    const [cardsPreloaded, setCardsPreloaded] = useState(false);
-    const [leftSide, setLeftSideSelection] = useState<SideSelection>(emptySelection);
-    const [leftScore, setLeftScore] = useState(0);
-    const [rightSide, setRightSideSelection] = useState<SideSelection>(emptySelection);
-    const [rightScore, setRightScore] = useState(0);
-    const [firstAttack, setFirstAttack] = useState<SideEnum>();
-    const [roundWinner, setRoundWinner] = useState<WinnerEnum>();
-    const [fullAutoPlay, setFullAutoPlay] = useState(false);
-    const [cardsRevealed, setCardsRevealed] = useState(false);
-    const [gameOver, setGameOver] = useState(false);
+    const [state, dispatch] = useReducer(reducer, initialAppState);
+    const {
+        leftSide,
+        leftScore,
+        rightSide,
+        rightScore,
+        roundWinner,
+        fullAutoPlay,
+        cardsRevealed,
+        gameOver,
+    } = state;
 
     const cardChooseHandler = useCallback((side: SideEnum, cardId: string, cardRect: CardRect) => {
         if (side === SideEnum.left) {
             const card = leftDeck.current.pullCardById(cardId);
             if (card) {
-                setLeftSideSelection({
-                    card,
-                    rect: cardRect,
+                dispatch({
+                    type: actions.SET_LEFT_SIDE_SELECTION,
+                    payload: {
+                        card,
+                        rect: cardRect,
+                    },
                 });
-                if (!rightSide.card) {
-                    setFirstAttack(SideEnum.left);
-                }
             }
         } else {
             const card = rightDeck.current.pullCardById(cardId);
             if (card) {
-                setRightSideSelection({
-                    card,
-                    rect: cardRect,
+                dispatch({
+                    type: actions.SET_RIGHT_SIDE_SELECTION,
+                    payload: {
+                        card,
+                        rect: cardRect,
+                    },
                 });
-                if (!leftSide.card) {
-                    setFirstAttack(SideEnum.right);
-                }
             }
         }
-    }, [leftSide.card, rightSide.card]);
+    }, []);
 
     const setScore = useCallback((winner: WinnerEnum) => {
         switch (winner) {
             case WinnerEnum.left:
-                setLeftScore(leftScore + 1);
+                dispatch({
+                    type: actions.INCREASE_LEFT_SCORE,
+                });
                 break;
             case WinnerEnum.right:
-                setRightScore(rightScore + 1);
+                dispatch({
+                    type: actions.INCREASE_RIGHT_SCORE,
+                });
                 break;
             default:
         }
 
-        setRoundWinner(undefined);
-        setLeftSideSelection(emptySelection);
-        setRightSideSelection(emptySelection);
-    }, [leftScore, rightScore]);
+        dispatch({
+            type: actions.SET_ROUND_WINNER,
+        });
+    }, []);
 
     const restart = useCallback(() => {
+        dispatch({
+            type: actions.RESTART,
+        });
         leftDeck.current.collect();
         rightDeck.current.collect();
-        setLeftScore(0);
-        setRightScore(0);
-        setGameOver(false);
     }, []);
 
     useEffect(() => {
@@ -102,7 +109,10 @@ export default function Canvas() {
                 } else {
                     winner = WinnerEnum.draw;
                 }
-                setRoundWinner(winner);
+                dispatch({
+                    type: actions.SET_ROUND_WINNER,
+                    payload: winner,
+                });
             }
         }, FINISH_ROUND_TIME);
         return () => clearTimeout(finishRoundTimer);
@@ -114,16 +124,21 @@ export default function Canvas() {
             && leftDeck.current.cardsInDeck.length === 0
             && rightDeck.current.cardsInDeck.length === 0
         ) {
-            setGameOver(true);
+            dispatch({
+                type: actions.SET_GAME_OVER,
+            });
         }
     }, [roundWinner]);
 
-    if (!cardsPreloaded) {
+    if (!state.cardsPreloaded) {
         return (
             <WrapComponent className="app-container">
                 <PreloaderComponent
                     colors={[leftDeckColor, rightDeckColor]}
-                    onLoading={() => setCardsPreloaded(true)}
+                    onLoading={() => dispatch({
+                        type: actions.SET_CARDS_PRELOADED,
+                        payload: true
+                    })}
                 />
             </WrapComponent>
         );
@@ -153,8 +168,7 @@ export default function Canvas() {
             <HeaderComponent
                 leftScore={leftScore}
                 rightScore={rightScore}
-                onChangeAutoPlay={setFullAutoPlay}
-                onChangeRevealCards={setCardsRevealed}
+                dispatch={dispatch}
             />
             <DeckComponent
                 autoPlay={fullAutoPlay}
@@ -167,7 +181,6 @@ export default function Canvas() {
             <TableComponent
                 leftSide={leftSide}
                 rightSide={rightSide}
-                firstAttack={firstAttack}
                 onClear={setScore}
                 roundWinner={roundWinner}
             />

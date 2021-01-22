@@ -17,7 +17,6 @@ const REFRESH_TABLE_TIME = 500;
 interface Props {
     leftSide: SideSelection,
     rightSide: SideSelection,
-    firstAttack?: SideEnum,
     roundWinner?: WinnerEnum,
     onClear: (roundWinner: WinnerEnum) => void,
 }
@@ -47,7 +46,7 @@ export default function Table(props: Props) {
                 card={leftSide.card}
                 rect={leftSide.rect}
                 wrapper={container.current}
-                zIndex={props.firstAttack === SideEnum.left ? 1 : 2}
+                zIndex={2}
                 roundWinner={roundWinner}
             />
             <TableCard
@@ -55,7 +54,7 @@ export default function Table(props: Props) {
                 card={rightSide.card}
                 rect={rightSide.rect}
                 wrapper={container.current}
-                zIndex={props.firstAttack === SideEnum.right ? 1 : 2}
+                zIndex={1}
                 roundWinner={roundWinner}
             />
         </div>

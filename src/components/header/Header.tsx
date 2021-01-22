@@ -1,13 +1,13 @@
 
 import React from 'react';
 import SwitchComponent from '../switch';
+import { actions, Action } from '../../store';
 import './style.css';
 
 interface Props {
     leftScore: number,
     rightScore: number,
-    onChangeAutoPlay: (value: boolean) => void,
-    onChangeRevealCards: (value: boolean) => void,
+    dispatch: (action: Action) => void,
 }
 
 export default function Header(props: Props) {
@@ -19,12 +19,20 @@ export default function Header(props: Props) {
             <SwitchComponent
                 text="Reveal cards"
                 className="hc-switch"
-                onChange={props.onChangeRevealCards}
+                onChange={() => {
+                    props.dispatch({
+                        type: actions.TOGGLE_CARD_REVEALED,
+                    });
+                }}
             />
             <SwitchComponent
                 text="Autoplay"
                 className="hc-switch"
-                onChange={props.onChangeAutoPlay}
+                onChange={() => {
+                    props.dispatch({
+                        type: actions.TOGGLE_FULL_AUTOPLAY,
+                    });
+                }}
             />
             <div className="hc-score hcs-right">
                 {props.rightScore}
