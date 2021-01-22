@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/simple-card-game/static/css/main.e0d810ed.chunk.css",
-    "main.js": "/simple-card-game/static/js/main.836f8cbc.chunk.js",
-    "main.js.map": "/simple-card-game/static/js/main.836f8cbc.chunk.js.map",
-    "runtime-main.js": "/simple-card-game/static/js/runtime-main.447bd98b.js",
-    "runtime-main.js.map": "/simple-card-game/static/js/runtime-main.447bd98b.js.map",
-    "static/js/2.45601d71.chunk.js": "/simple-card-game/static/js/2.45601d71.chunk.js",
-    "static/js/2.45601d71.chunk.js.map": "/simple-card-game/static/js/2.45601d71.chunk.js.map",
-    "static/js/3.c5635138.chunk.js": "/simple-card-game/static/js/3.c5635138.chunk.js",
-    "static/js/3.c5635138.chunk.js.map": "/simple-card-game/static/js/3.c5635138.chunk.js.map",
+    "main.js": "/simple-card-game/static/js/main.9aeb8f27.chunk.js",
+    "main.js.map": "/simple-card-game/static/js/main.9aeb8f27.chunk.js.map",
+    "runtime-main.js": "/simple-card-game/static/js/runtime-main.cfab42c3.js",
+    "runtime-main.js.map": "/simple-card-game/static/js/runtime-main.cfab42c3.js.map",
+    "static/js/2.e20e69aa.chunk.js": "/simple-card-game/static/js/2.e20e69aa.chunk.js",
+    "static/js/2.e20e69aa.chunk.js.map": "/simple-card-game/static/js/2.e20e69aa.chunk.js.map",
+    "static/js/3.9d752fa9.chunk.js": "/simple-card-game/static/js/3.9d752fa9.chunk.js",
+    "static/js/3.9d752fa9.chunk.js.map": "/simple-card-game/static/js/3.9d752fa9.chunk.js.map",
     "index.html": "/simple-card-game/index.html",
     "static/css/main.e0d810ed.chunk.css.map": "/simple-card-game/static/css/main.e0d810ed.chunk.css.map",
-    "static/js/2.45601d71.chunk.js.LICENSE.txt": "/simple-card-game/static/js/2.45601d71.chunk.js.LICENSE.txt",
+    "static/js/2.e20e69aa.chunk.js.LICENSE.txt": "/simple-card-game/static/js/2.e20e69aa.chunk.js.LICENSE.txt",
     "static/media/loading.4f271669.svg": "/simple-card-game/static/media/loading.4f271669.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.447bd98b.js",
-    "static/js/2.45601d71.chunk.js",
+    "static/js/runtime-main.cfab42c3.js",
+    "static/js/2.e20e69aa.chunk.js",
     "static/css/main.e0d810ed.chunk.css",
-    "static/js/main.836f8cbc.chunk.js"
+    "static/js/main.9aeb8f27.chunk.js"
   ]
 }
