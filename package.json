@@ -1,6 +1,6 @@
 {
   "name": "simple-card-game",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "private": false,
   "homepage": "https://nikuz.github.io/simple-card-game",
   "dependencies": {
